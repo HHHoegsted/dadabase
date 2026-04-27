@@ -78,6 +78,9 @@ def init_db():
         db.execute(
             "create index if not exists idx_posts_created_utc on posts(created_utc desc)"
         )
+        db.execute(
+            "create index if not exists idx_posts_score on posts(score desc, created_utc desc)"
+        )
 
 
 def reddit_listing_url():
@@ -210,7 +213,7 @@ def post_rows(limit=50):
             select id, subreddit, title, author, selftext, url, permalink, score,
                    num_comments, over_18, created_utc, fetched_at
             from posts
-            order by created_utc desc, fetched_at desc
+            order by score desc, created_utc desc, fetched_at desc
             limit ?
             """,
             (limit,),
