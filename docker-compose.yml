@@ -11,4 +11,7 @@ services:
       FETCH_INTERVAL_SECONDS: "86400"
       USER_AGENT: "dada-base-reddit-scraper/1.0 by local homelab"
     volumes:
-      - ./data:/data
+      - reddit-data:/data
+
+volumes:
+  reddit-data:
