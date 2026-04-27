@@ -7,7 +7,6 @@ It stores posts in SQLite and exposes:
 - `http://localhost:18080/` - simple local page
 - `http://localhost:18080/api/posts` - stored posts as JSON
 - `http://localhost:18080/api/status` - scraper status
-- `http://localhost:18080/api/refresh` - trigger a background refresh
 
 ## Run with Docker Compose
 

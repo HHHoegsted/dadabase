@@ -270,7 +270,6 @@ def index_html():
             """
         )
 
-    last_run_text = json.dumps(status["last_run"], ensure_ascii=False)
     content = "\n".join(cards) if cards else "<p>No posts have been fetched yet.</p>"
     return f"""<!doctype html>
 <html lang="en">
@@ -300,9 +299,6 @@ def index_html():
       font-size: clamp(1.8rem, 4vw, 3rem);
       margin: 0 0 8px;
     }}
-    nav a {{
-      margin-right: 16px;
-    }}
     article {{
       border-bottom: 1px solid color-mix(in srgb, CanvasText 14%, transparent);
       padding: 18px 0;
@@ -327,12 +323,6 @@ def index_html():
   <header>
     <h1>r/{html_escape(SUBREDDIT)}</h1>
     <p class="status">Source: <code>{html_escape(status["source_url"])}</code></p>
-    <p class="status">Last run: <code>{html_escape(last_run_text)}</code></p>
-    <nav>
-      <a href="/api/posts">Posts JSON</a>
-      <a href="/api/status">Status JSON</a>
-      <a href="/api/refresh">Refresh now</a>
-    </nav>
   </header>
   <main>{content}</main>
 </body>
@@ -363,11 +353,6 @@ class Handler(BaseHTTPRequestHandler):
             query = parse_qs(parsed.query)
             limit = int(query.get("limit", ["50"])[0])
             json_response(self, post_rows(max(1, min(limit, 200))))
-            return
-
-        if parsed.path == "/api/refresh":
-            threading.Thread(target=run_fetch, daemon=True).start()
-            json_response(self, {"ok": True, "message": "Refresh started"})
             return
 
         json_response(self, {"error": "Not found"}, HTTPStatus.NOT_FOUND)
