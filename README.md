@@ -23,7 +23,8 @@ $env:HOST_PORT="18081"
 docker compose up -d
 ```
 
-The SQLite database is stored in the Docker volume `dadabase_reddit-data`.
+The SQLite database is written to `./data/reddit_posts.sqlite3`.
+The Compose volume uses `:z` for Fedora/SELinux hosts.
 
 ## Run without Docker
 
